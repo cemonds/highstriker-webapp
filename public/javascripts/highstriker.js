@@ -14,9 +14,14 @@ app.config(['$routeProvider', function($routeProvider) {
 			templateUrl: 'game',
 			controller: 'GameController'
 		}).
+		when('/highscore', {
+			templateUrl: 'highscore'
+		}).
+		when('/instructions', {
+			templateUrl: 'instructions'
+		}).
 		when('/notsupported', {
-			templateUrl: 'notsupported',
-			controller: 'NotSupportedController'
+			templateUrl: 'notsupported'
 		}).
 		otherwise({
 			redirectTo: '/'
@@ -30,8 +35,9 @@ app.controller('MainController', ['$scope', '$location', 'socket', function ($sc
 	$scope.connectedUsers = -1;
 	$scope.waitingUsers = -1;
 	$scope.game = null;
-	if (window.DeviceMotionEvent) {
-		console.log("DeviceMotionEvent is supported");
+	
+	if (!window.DeviceMotionEvent) {
+		$location.url('/notsupported');
 	}
 
 	socket.on('status', function(message) {
@@ -68,10 +74,15 @@ app.controller('MainController', ['$scope', '$location', 'socket', function ($sc
 	$scope.leaveQueue = function() {
 		socket.emit('leave-queue');
 	}
-}]);
-
-app.controller('NotSupportedController', ['$scope', 'socket', function ($scope, socket) {
-	
+	$scope.showInstructions = function() {
+		$location.url('/instructions');
+	}
+	$scope.showHighScore = function() {
+		$location.url('/highscore');
+	}
+	$scope.goBack = function() {
+		window.history.back();
+	}
 }]);
 
 app.controller('IndexController', ['$scope', 'socket', function ($scope, socket) {

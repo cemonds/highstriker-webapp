@@ -1,16 +1,7 @@
 <div>
-	<h1>Highstriker mobile</h1>
+	<h1>How to play</h1>
 	<p>
 		Welcome to High Striker mobile!
 	</p>
-	<a href="/instructions">How to play</a>
-	<a ng-hide="isInQueue" ng-click="joinQueue()">Let me play!</a>
-	<a ng-show="isInQueue" ng-click="leaveQueue()">Leave queue!</a>
-	<a href="/highscore">High score</a>
-	<h3>Status</h3>
-	<p>
-		<div ng-hide="isInQueue">Not in queue</div>
-		<div ng-show="isInQueue">In queue</div>
-		<div>Active users: {{ connectedUsers }}</div>
-		<div>User in queue: {{ waitingUsers }}</div>
-	</p>
+	<a ng-click="goBack()">Back</a>
+</div>
