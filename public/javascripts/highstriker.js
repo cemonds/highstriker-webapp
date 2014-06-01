@@ -141,7 +141,9 @@ app.controller('GameController', ['$scope', '$interval', '$location', 'socket', 
 	$scope.canStart = true;
 	$scope.isStarted = false;
 	$scope.startTime = null;
+	$scope.timeUntilGameTimeout = 0;
 	$scope.gameCountdown = 0;
+	$scope.timeUntilStart = 0;
 	$scope.startCountdown = 0;
 	$scope.isFinished = false;
 	$scope.maxAcceleration = 0;
@@ -164,12 +166,13 @@ app.controller('GameController', ['$scope', '$interval', '$location', 'socket', 
 	
 	var updateCountdowns = function() {
 		var currentTime = new Date().getTime();
-		$scope.gameCountdown = gameEnding - currentTime;
-		$scope.canStart = $scope.gameCountdown > COUNTDOWN_DURATION;
+		$scope.timeUntilGameTimeout = gameEnding - currentTime;
+		$scope.canStart = $scope.timeUntilGameTimeout > COUNTDOWN_DURATION;
 		if($scope.isStarted) {
-			$scope.startCountdown = $scope.startTime - currentTime;
-			if($scope.startCountdown < 0) {
-				if($scope.startCountdown > - ARMED_DURATION) {
+			$scope.timeUntilStart = $scope.startTime - currentTime;
+			$scope.startCountdown = Math.floor(($scope.timeUntilStart+999)/1000);
+			if($scope.timeUntilStart < 0) {
+				if($scope.timeUntilStart > - ARMED_DURATION) {
 					$scope.isArmed = true;
 				} else {
 					$scope.isFinished = true;
