@@ -4,13 +4,14 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var _ = require('underscore')._;
 
 var app = express();
 
 var GAME_MAX_DURATION = 30000;
 var AFTER_GAME_WAIT_DURATION = 10000;
 var CHECK_TIMEOUT_INTERVAL = 1000;
-var NEXT_GAME_INTERVAL = 1000;
+var NEXT_GAME_INTERVAL = 5000;
 
 var waitingQueue = []
 var currentGame = null;
@@ -31,32 +32,6 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-var router = express.Router();
-
-/* GET game. */
-router.get('/', function(req, res) {
-  res.render('layout', { highScores: highScores });
-});
-router.get('/index', function(req, res) {
-  res.render('index', { highScores: highScores });
-});
-router.get('/game', function(req, res) {
-  res.render('game', { highScores: highScores });
-});
-router.get('/queue', function(req, res) {
-  res.render('queue', { highScores: highScores });
-});
-router.get('/highscore', function(req, res) {
-  res.render('highscore', { highScores: highScores });
-});
-router.get('/instructions', function(req, res) {
-  res.render('instructions', { highScores: highScores });
-});
-router.get('/notsupported', function(req, res) {
-  res.render('notsupported', { highScores: highScores });
-});
-app.use('/', router);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -139,16 +114,16 @@ module.exports = {
 		setInterval(checkCurrentGameTimeout, CHECK_TIMEOUT_INTERVAL);
 		setInterval(tryNextGame, NEXT_GAME_INTERVAL);
 
-		var addHighScore = function(game) {
-			var position = 0;
+		var addHighScore = function(highScore) {
+			var position = highScores.length;
 			for(var i=0; i < highScores.length - 1; ++i) {
-				comparison = highScores[i].result - game.result;
+				comparison = highScores[i].result - highScore.result;
 				if (comparison < 0) {
 					position = i;
 					break;
 				} 
 			}
-			highScores.splice(position, 0, game);
+			highScores.splice(position, 0, highScore);
 			io.emit('highscore', highScores);
 		};
 
@@ -197,17 +172,28 @@ module.exports = {
 					socket.emit('game-started');
 				}
 			});
-			socket.on('finish-game', function(result) {
-				if(currentGame && currentGame.player == socket.id) {
+			socket.on('finish-game', function(game) {
+				if(currentGame && currentGame.player == socket.id && currentGame.id == game.id) {
 					var currentTime = new Date().getTime();
 					if(currentGame.end >= currentTime && currentGame.start <= currentTime) {
-						console.log("Result "+result);
-						currentGame.result = result;
+						currentGame.result = game.result;
 						gameHistory.push(currentGame);
-						addHighScore(currentGame);
 						currentGame = null;
 						socket.emit('game-finished');
 					}
+				}
+			});
+			socket.on('add-highscore', function(highScore) {
+				var game = _.findWhere(gameHistory, {id:highScore.game,player:socket.id});
+				if(game && game.result == highScore.result) {
+					var oldHighScore = _.findWhere(gameHistory, {game:game.id});
+					if(oldHighScore) {
+						oldHighScore.name = highScore.name;
+						io.emit('highscore', highScores);
+					} else {
+						addHighScore(highScore);
+					}
+					socket.emit('highscore-added');
 				}
 			});
 		});

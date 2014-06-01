@@ -3,26 +3,30 @@ var app = angular.module('highstriker', ['ngRoute','ngTouch','ngCookies']);
 app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.
 		when('/', {
-			templateUrl: 'index',
+			templateUrl: 'main.html',
 			controller: 'IndexController'
 		}).
 		when('/queue', {
-			templateUrl: 'queue',
+			templateUrl: 'queue.html',
 			controller: 'QueueController'
 		}).
 		when('/game', {
-			templateUrl: 'game',
+			templateUrl: 'game.html',
 			controller: 'GameController'
 		}).
+		when('/result', {
+			templateUrl: 'result.html',
+			controller: 'ResultController'
+		}).
 		when('/highscore', {
-			templateUrl: 'highscore',
+			templateUrl: 'highscore.html',
 			controller: 'HighScoreController'
 		}).
 		when('/instructions', {
-			templateUrl: 'instructions'
+			templateUrl: 'instructions.html'
 		}).
 		when('/notsupported', {
-			templateUrl: 'notsupported'
+			templateUrl: 'notsupported.html'
 		}).
 		otherwise({
 			redirectTo: '/'
@@ -36,6 +40,7 @@ app.controller('MainController', ['$scope', '$location', 'socket', function ($sc
 	$scope.connectedUsers = -1;
 	$scope.waitingUsers = -1;
 	$scope.game = null;
+	$scope.lastGame = null;
 	
 	if (!window.DeviceMotionEvent) {
 		$location.url('/notsupported');
@@ -62,8 +67,9 @@ app.controller('MainController', ['$scope', '$location', 'socket', function ($sc
 		$location.url('/');
 	});
 	socket.on('game-finished', function(message) {
+		$scope.lastGame = $scope.game;
 		$scope.game = null;
-		$location.url('/');
+		$location.url('/result');
 	});
 	socket.on('status', function(message) {
 		$scope.connectedUsers = message.connectedUsers;
@@ -83,6 +89,9 @@ app.controller('MainController', ['$scope', '$location', 'socket', function ($sc
 	}
 	$scope.goBack = function() {
 		window.history.back();
+	}
+	$scope.goMain = function() {
+		$location.url('/');
 	}
 }]);
 
@@ -121,7 +130,6 @@ app.controller('QueueController', ['$scope', 'socket', function ($scope, socket)
 	socket.emit('query-queue-status');
 	
 	$scope.$on('$destroy', function() {
-	
 		socket.removeListener('queue-status', onQueueStatus);
 	});
 }]);
@@ -166,7 +174,8 @@ app.controller('GameController', ['$scope', '$interval', '$location', 'socket', 
 				} else {
 					$scope.isFinished = true;
 					$scope.isArmed = false;
-					socket.emit('finish-game', $scope.maxAcceleration);
+					$scope.game.result = $scope.maxAcceleration;
+					socket.emit('finish-game', $scope.game);
 					if(promise) {
 						$interval.cancel(promise);
 						promise = null;
@@ -189,6 +198,26 @@ app.controller('GameController', ['$scope', '$interval', '$location', 'socket', 
 			promise = null;
 		}
 		window.removeEventListener('devicemotion', updateAcceleration, false);
+	});
+}]);
+
+app.controller('ResultController', ['$scope', '$cookies', '$location', 'socket', function ($scope, $cookies, $location, socket) {
+	if(!$scope.lastGame) {
+		$location.url('/');
+	}
+	$scope.name = $cookies.name;
+	$scope.submitHighScore = function() {
+		var highScore = {game:$scope.lastGame.id,result:$scope.lastGame.result,name:$scope.name};
+		$cookies.name = $scope.name;
+		socket.emit('add-highscore', highScore);
+	}
+	var onHighscoreAdded = function() {
+		$location.url('/highscore');
+	};
+	socket.on('highscore-added', onHighscoreAdded);
+	
+	$scope.$on('$destroy', function() {
+		socket.removeListener('highscore-added', onHighscoreAdded);
 	});
 }]);
 
