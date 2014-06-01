@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="highstriker">
+	<head>
+		<title>${title}</title>
+		<link rel="stylesheet" href="/stylesheets/style.css"></script>
+		<script src="/javascripts/angular.js"></script>
+		<script src="/javascripts/angular-cookies.js"></script>
+		<script src="/javascripts/angular-route.js"></script>
+		<script src="/javascripts/angular-touch.js"></script>
+		<script src="/javascripts/highstriker.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+	</head>
+	<body ng-controller="MainController">
+		<ng-view></ng-view>
+		<h3>Status</h3>
+		<p>
+			<div ng-hide="isInQueue">Not in queue</div>
+			<div ng-show="isInQueue">In queue</div>
+			<div>Active users: {{ connectedUsers }}</div>
+			<div>User in queue: {{ waitingUsers }}</div>
+		</p>
+	</body>
+</html>

@@ -1,0 +1,12 @@
+<div>
+	<h1>Play!</h1>
+	<div ng-show="isStarted">
+		<div ng-show="! isArmed && ! isFinished">Countdown: {{ startCountdown }}</div>
+		<div ng-show="isFinished">Result: {{ maxAcceleration }}</div>
+		<div ng-show="isArmed">Hurl your phone to the ground!</div>
+	</div>
+	<div>
+		<a ng-disabled="!canStart" ng-hide="isStarted" ng-click="start()">Start</a>
+		<small>Time remaining: {{ gameCountdown }}</small>
+	</div>
+</div>
