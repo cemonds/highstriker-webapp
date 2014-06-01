@@ -1,9 +1,7 @@
 <div>
 	<h1>High scores</h1>
 	<ol>
-		<% for(var i=0; i<highScores.length; ++i) { %>
-		<li><%= highScores[i].result %> <%= highScores[i].name %></li>
-		<% } %>
+		<li ng-repeat="highScore in highScores">{{ highScore.result }} {{ highScore.name }}</li>
 	</ol>
 	<a ng-click="goBack()">Back</a>
 <div>

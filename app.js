@@ -142,13 +142,14 @@ module.exports = {
 		var addHighScore = function(game) {
 			var position = 0;
 			for(var i=0; i < highScores.length - 1; ++i) {
-				comparison = highScores[i] - result;
+				comparison = highScores[i].result - game.result;
 				if (comparison < 0) {
 					position = i;
 					break;
 				} 
 			}
 			highScores.splice(position, 0, game);
+			io.emit('highscore', highScores);
 		};
 
 		io.on('connection', function(socket){
@@ -187,6 +188,9 @@ module.exports = {
 				} else {
 					socket.emit('queue-status', {inQueue:false});
 				}
+			});
+			socket.on('query-highscore', function() {
+				socket.emit('highscore', highScores);
 			});
 			socket.on('start-game', function() {
 				if(currentGame && currentGame.player == socket.id) {

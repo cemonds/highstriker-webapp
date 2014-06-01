@@ -15,7 +15,8 @@ app.config(['$routeProvider', function($routeProvider) {
 			controller: 'GameController'
 		}).
 		when('/highscore', {
-			templateUrl: 'highscore'
+			templateUrl: 'highscore',
+			controller: 'HighScoreController'
 		}).
 		when('/instructions', {
 			templateUrl: 'instructions'
@@ -60,7 +61,7 @@ app.controller('MainController', ['$scope', '$location', 'socket', function ($sc
 		$scope.game = null;
 		$location.url('/');
 	});
-	socket.on('game-finish', function(message) {
+	socket.on('game-finished', function(message) {
 		$scope.game = null;
 		$location.url('/');
 	});
@@ -89,12 +90,24 @@ app.controller('IndexController', ['$scope', 'socket', function ($scope, socket)
 	
 }]);
 
+app.controller('HighScoreController', ['$scope', 'socket', function ($scope, socket) {
+	$scope.highScores = []
+	var onHighScore = function(highScores) {
+		$scope.highScores = highScores;
+	};
+	socket.on('highscore', onHighScore);
+	socket.emit('query-highscore');
+	
+	$scope.$on('$destroy', function() {
+		socket.removeListener('highscore', onHighScore);
+	});
+}]);
+
 app.controller('QueueController', ['$scope', 'socket', function ($scope, socket) {
 	$scope.isInQueue = true;
 	$scope.position = 0;
 	$scope.waitingTime = 0;
-	socket.emit('query-queue-status');
-	socket.on('queue-status', function(status) {
+	var onQueueStatus = function(status) {
 		$scope.isInQueue = status.inQueue;
 		if(status.inQueue) {
 			$scope.position = status.position;
@@ -103,10 +116,17 @@ app.controller('QueueController', ['$scope', 'socket', function ($scope, socket)
 			$scope.position = '-';
 			$scope.waitingTime = '-';
 		}
+	};
+	socket.on('queue-status', onQueueStatus);
+	socket.emit('query-queue-status');
+	
+	$scope.$on('$destroy', function() {
+	
+		socket.removeListener('queue-status', onQueueStatus);
 	});
 }]);
 
-app.controller('GameController', ['$scope', '$interval', 'socket', function ($scope, $interval, socket) {
+app.controller('GameController', ['$scope', '$interval', '$location', 'socket', function ($scope, $interval, $location, socket) {
 	var COUNTDOWN_DURATION = 5000;
 	var ARMED_DURATION = 3000;
 	$scope.isArmed = false
@@ -117,6 +137,9 @@ app.controller('GameController', ['$scope', '$interval', 'socket', function ($sc
 	$scope.startCountdown = 0;
 	$scope.isFinished = false;
 	$scope.maxAcceleration = 0;
+	if(!$scope.game) {
+		$location.url('/');
+	}
 	var durationOfGame = ($scope.game.end - $scope.game.start) / 1000;
 	var gameEnding = new Date().getTime() + durationOfGame * 1000;
 	var promise = null;
@@ -165,7 +188,7 @@ app.controller('GameController', ['$scope', '$interval', 'socket', function ($sc
 			$interval.cancel(promise);
 			promise = null;
 		}
-		window.addRemoveListener('devicemotion', updateAcceleration, false);
+		window.removeEventListener('devicemotion', updateAcceleration, false);
 	});
 }]);
 
@@ -179,6 +202,11 @@ app.factory('socket', ['$rootScope', function ($rootScope) {
 					callback.apply(socket, args);
 				});
 			});
+		},
+		removeListener: function (eventName, callback) {
+			// TODO Remove doesn't work, since the real callback
+			// is wrapped by an anonymous function when registered 
+			// Here is a potential memory leak
 		},
 		emit: function (eventName, data, callback) {
 			socket.emit(eventName, data, function () {

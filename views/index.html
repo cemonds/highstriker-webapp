@@ -1,10 +1,27 @@
-<div>
-	<h1>Highstriker mobile</h1>
-	<p>
-		Welcome to High Striker mobile!
-	</p>
-	<a ng-click="showInstructions()">How to play</a>
-	<a ng-hide="isInQueue" ng-click="joinQueue()">Let me play!</a>
-	<a ng-show="isInQueue" ng-click="leaveQueue()">Leave queue!</a>
-	<a ng-click="showHighScore()">High score</a>
+<div class="row">
+	<div class="col-xs-12">
+		<h1>High Striker mobile</h1>
+		<p>
+			Welcome to High Striker mobile!
+		</p>
+	</div>
+	<!--div class="col-xs-12">
+		<h2>What is High Striker mobile?</h2>
+		<p>
+			Here some short explanation.
+		</p>
+	</div-->
+	<div class="col-xs-12">
+		<h2>How to play</h2>
+		<button class="btn btn-block btn-lg btn-default" ng-click="showInstructions()">Learn how to play.</a>
+	</div>
+	<div class="col-xs-12">
+		<h2>Play it</h2>
+		<button class="btn btn-block btn-lg btn-primary" ng-hide="isInQueue" ng-click="joinQueue()">Enter waiting queue.</a>
+		<button class="btn btn-block btn-lg btn-danger" ng-show="isInQueue" ng-click="leaveQueue()">Leave the waiting queue.</a>
+	</div>
+	<div class="col-xs-12">
+		<h2>High score</h2>
+		<button class="btn btn-block btn-lg btn-default" ng-click="showHighScore()">Take a look at the current high score.</a>
+	</div>
 </div>
