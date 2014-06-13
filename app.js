@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var _ = require('underscore')._;
-var Pixel = require('./adafruit_pixel').Pixel;
 
 var app = express();
 
@@ -13,9 +12,6 @@ var GAME_MAX_DURATION = 30000;
 var AFTER_GAME_WAIT_DURATION = 10000;
 var CHECK_TIMEOUT_INTERVAL = 1000;
 var NEXT_GAME_INTERVAL = 5000;
-var NUM_PIXELS = 96;
-
-var lights = Pixel('/dev/spidev1.1', NUM_PIXELS);
 
 var waitingQueue = []
 var currentGame = null;
@@ -118,15 +114,6 @@ module.exports = {
 		var showGameResult = function(game) {
 			var exec = require('child_process').exec;
 			exec('espeak -ven+m1 -a400  -k4 -p20 -s -s200 -w /tmp/text.wav "'+Math.floor(game.result*10)/10+' - Nice try, Buddy." && aplay /tmp/text.wav');
-			
-			for(var i=0; i<NUM_PIXELS; ++i) {
-				if(i < game.result) {
-					lights.set(i, 0xff, 0x80, 0x80);
-				} else {
-					lights.set(i, 0, 0, 0);
-				}
-			}
-			lights.sync();
 		};
 
 		setInterval(checkCurrentGameTimeout, CHECK_TIMEOUT_INTERVAL);
