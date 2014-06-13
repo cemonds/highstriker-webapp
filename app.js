@@ -122,7 +122,7 @@ module.exports = {
 
 		var addHighScore = function(highScore) {
 			var position = highScores.length;
-			for(var i=0; i < highScores.length - 1; ++i) {
+			for(var i=0; i < highScores.length; ++i) {
 				comparison = highScores[i].result - highScore.result;
 				if (comparison < 0) {
 					position = i;
