@@ -18,10 +18,14 @@ var currentGame = null;
 var gameHistory = [];
 var highScores = [];
 
-var loadedData = require('./highscore.json');
-if(loadedData) {
-	gameHistory = loadedData.gameHistory;
-	highScores = loadedData.highScores;
+var fs = require('fs');
+
+if (fs.existsSync('./highscore.json')) {
+	var loadedData = require('./highscore.json');
+	if(loadedData) {
+		gameHistory = loadedData.gameHistory;
+		highScores = loadedData.highScores;
+	}
 }
 
 
