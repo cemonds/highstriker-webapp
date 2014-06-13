@@ -18,6 +18,12 @@ var currentGame = null;
 var gameHistory = [];
 var highScores = [];
 
+var loadedData = require('./highscore.json');
+if(loadedData) {
+	gameHistory = loadedData.gameHistory;
+	highScores = loadedData.highScores;
+}
+
 
 
 // view engine setup
@@ -131,6 +137,15 @@ module.exports = {
 			}
 			highScores.splice(position, 0, highScore);
 			io.emit('highscore', highScores);
+			var fs = require('fs');
+			var outputFilename = './highscore.json';
+			fs.writeFile(outputFilename, JSON.stringify({highScores:highScores,gameHistory:gameHistory}, null, 4), function(err) {
+				if(err) {
+					console.log(err);
+				} else {
+					console.log("JSON saved to " + outputFilename);
+				}
+			});
 		};
 
 		io.on('connection', function(socket){
