@@ -6,7 +6,7 @@
 			<div class="countdown alert alert-success center-block" ng-show="isArmed">GO!</div>
 		</div>
 		<div ng-hide="isStarted">
-			<button class="btn btn-block btn-lg btn-default" ng-disabled="!canStart" ng-hide="isStarted" ng-click="start()">Start</button>
+			<button class="btn btn-block btn-lg btn-primary" ng-disabled="!canStart" ng-hide="isStarted" ng-click="start()">Start</button>
 			<small>Time remaining: {{ timeUntilGameTimeout/1000 | number:1 }} s</small>
 		</div>
 	</div>
