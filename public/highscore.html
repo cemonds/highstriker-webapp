@@ -1,7 +1,7 @@
 <div class="row">
 	<h1>High score</h1>
 	<ol>
-		<li ng-repeat="highScore in highScores">{{ highScore.result }} {{ highScore.name }}</li>
+		<li ng-repeat="highScore in highScores">{{ highScore.result | number:2 }} {{ highScore.name }}</li>
 	</ol>
 	<a ng-click="goMain()">Back</a>
 <div>
