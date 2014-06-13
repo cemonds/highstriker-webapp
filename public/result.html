@@ -1,18 +1,20 @@
 <div class="row">
-	<h1>Result</h1>
-	<div>
-		<div>Result: {{ lastGame.result }}</div>
-		<div>Position in high score: {{ estimatedPosition() }}</div>
-	</div>
-	<div>
-		<h3>Submit to high score</h3>
-		<form role="form">
-			<div class="form-group">
-				<label for="name">Your name</label>
-				<input type="text" class="form-control" id="name" ng-model="name" placeholder="Enter your name" maxLength="24" />
-			</div>
-			<button class="btn btn-block btn-lg btn-primary" ng-click="submitHighScore()">Submit</a>
-			<button class="btn btn-block btn-lg btn-default" ng-click="goMain()">Skip it</a>
-		</form>
+	<div class="col-xs-12">
+		<h1>Result</h1>
+		<div>
+			<div>Result: {{ lastGame.result }}</div>
+			<div>Position in high score: {{ estimatedPosition() }}</div>
+		</div>
+		<div>
+			<h3>Submit to high score</h3>
+			<form role="form">
+				<div class="form-group">
+					<label for="name">Your name</label>
+					<input type="text" class="form-control" id="name" ng-model="name" placeholder="Enter your name" maxLength="24" />
+				</div>
+				<button class="btn btn-block btn-lg btn-primary" ng-click="submitHighScore()">Submit</a>
+				<button class="btn btn-block btn-lg btn-default" ng-click="goMain()">Skip it</a>
+			</form>
+		</div>
 	</div>
 </div>
