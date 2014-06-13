@@ -114,6 +114,7 @@ module.exports = {
 		var showGameResult = function(game) {
 			var exec = require('child_process').exec;
 			exec('espeak -ven+m1 -a400  -k4 -p20 -s -s200 -w /tmp/text.wav "'+Math.floor(game.result*10)/10+' - Nice try, Buddy." && aplay /tmp/text.wav');
+			exec('python ledstrip/highstriker.py '+Math.floor(game.result)+'');
 		};
 
 		setInterval(checkCurrentGameTimeout, CHECK_TIMEOUT_INTERVAL);
