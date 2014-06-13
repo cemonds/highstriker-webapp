@@ -1,13 +1,13 @@
 <div class="row">
-	<p ng-show="isInQueue">
+	<div class="col-xs-12" ng-show="isInQueue">
 		<h1>Waiting...</h1>
 		<div>Current position in queue: <span class="position">{{ position }}</span></div>
 		<div>Estimated waiting time: <span class="waitingTime">{{ waitingTime }}</span></div>
 		<a ng-click="leaveQueue()">Leave the queue</a>
-	</p>
-	<a ng-hide="isInQueue">
+	</div>
+	<div class="col-xs-12" ng-hide="isInQueue">
 		<h1>Not in queue...</h1>
-		<p>You are currently not waiting for a game.</p>
+		<div>You are currently not waiting for a game.</div>
 		<a ng-click="joinQueue()">Join the queue</a>
 	</a>
 </div>
