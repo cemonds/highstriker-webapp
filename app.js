@@ -178,7 +178,7 @@ module.exports = {
 					if(currentGame.end >= currentTime && currentGame.start <= currentTime) {
 						currentGame.result = game.result;
 						var exec = require('child_process').exec;
-						exec('espeak -ven+m1 -a400  -k4 -p20 -s -s200 -w text.wav "33.12 - Nice try, Buddy." && aplay text.wav');
+						exec('espeak -ven+m1 -a400  -k4 -p20 -s -s200 -w /tmp/text.wav "'+Math.floor(game.result*10)/10+' - Nice try, Buddy." && aplay /tmp/text.wav');
 						gameHistory.push(currentGame);
 						currentGame = null;
 						socket.emit('game-finished');
