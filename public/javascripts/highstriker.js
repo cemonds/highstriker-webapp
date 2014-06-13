@@ -41,11 +41,14 @@ app.controller('MainController', ['$scope', '$location', 'socket', function ($sc
 	$scope.waitingUsers = -1;
 	$scope.game = null;
 	$scope.lastGame = null;
+	$scope.highScores = []
 	
 	if (!window.DeviceMotionEvent) {
 		$location.url('/notsupported');
 	}
-
+	socket.on('highscore', function(highScores) {
+		$scope.highScores = highScores;
+	});
 	socket.on('status', function(message) {
 		$scope.connectedUsers = message.connectedUsers;
 	});
@@ -100,16 +103,7 @@ app.controller('IndexController', ['$scope', 'socket', function ($scope, socket)
 }]);
 
 app.controller('HighScoreController', ['$scope', 'socket', function ($scope, socket) {
-	$scope.highScores = []
-	var onHighScore = function(highScores) {
-		$scope.highScores = highScores;
-	};
-	socket.on('highscore', onHighScore);
 	socket.emit('query-highscore');
-	
-	$scope.$on('$destroy', function() {
-		socket.removeListener('highscore', onHighScore);
-	});
 }]);
 
 app.controller('QueueController', ['$scope', 'socket', function ($scope, socket) {
@@ -209,15 +203,26 @@ app.controller('ResultController', ['$scope', '$cookies', '$location', 'socket',
 		$location.url('/');
 	}
 	$scope.name = $cookies.name;
+	$scope.estimatedPosition = function() {
+		var i=0;
+		for(i=0; i<$scope.highScores.length; ++i) {
+			if($scope.highScores[i].result < $scope.lastGame.result) {
+				break;
+			}
+		}
+		return i+1;
+	};
 	$scope.submitHighScore = function() {
 		var highScore = {game:$scope.lastGame.id,result:$scope.lastGame.result,name:$scope.name};
 		$cookies.name = $scope.name;
 		socket.emit('add-highscore', highScore);
-	}
+	};
 	var onHighscoreAdded = function() {
 		$location.url('/highscore');
 	};
 	socket.on('highscore-added', onHighscoreAdded);
+	
+	socket.emit('query-highscore');
 	
 	$scope.$on('$destroy', function() {
 		socket.removeListener('highscore-added', onHighscoreAdded);
