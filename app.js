@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var _ = require('underscore')._;
-var Pixel = require('adafruit_pixel').Pixel;
+var Pixel = require('./adafruit_pixel').Pixel;
 
 var app = express();
 
