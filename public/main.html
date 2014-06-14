@@ -12,16 +12,15 @@
 		</p>
 	</div-->
 	<div class="col-xs-12">
-		<h2>How to play</h2>
-		<button class="btn btn-block btn-lg btn-default" ng-click="showInstructions()">Learn how to play.</button>
-	</div>
-	<div class="col-xs-12">
-		<h2>Play it</h2>
-		<button class="btn btn-block btn-lg btn-primary" ng-hide="isInQueue" ng-click="joinQueue()">Enter waiting queue.</button>
-		<button class="btn btn-block btn-lg btn-danger" ng-show="isInQueue" ng-click="leaveQueue()">Leave the waiting queue.</button>
-	</div>
-	<div class="col-xs-12">
-		<h2>High score</h2>
-		<button class="btn btn-block btn-lg btn-default" ng-click="showHighScore()">Take a look at the current high score.</button>
+		<p>
+			<button class="btn btn-block btn-lg btn-default" ng-click="showInstructions()">How to play.</button>
+		</p>
+		<p>
+			<button class="btn btn-block btn-lg btn-primary" ng-hide="isInQueue" ng-click="joinQueue()">Play it!</button>
+			<button class="btn btn-block btn-lg btn-danger" ng-show="isInQueue" ng-click="leaveQueue()">Cancel</button>
+		</p>
+		<p>
+			<button class="btn btn-block btn-lg btn-default" ng-click="showHighScore()">High score</button>
+		</p>
 	</div>
 </div>
