@@ -149,8 +149,8 @@ app.controller('GameController', ['$scope', '$interval', '$location', 'socket', 
 	var promise = null;
 	var updateAcceleration = function (eventData) {
 		if($scope.isArmed) {
-			var acceleration = eventData.acceleration;
-			$scope.maxAcceleration = Math.max($scope.maxAcceleration, Math.sqrt(acceleration.x*acceleration.x+acceleration.y*acceleration.y+acceleration.z*acceleration.z));
+			var acceleration = eventData.accelerationIncludingGravity;
+			$scope.maxAcceleration = Math.max($scope.maxAcceleration, Math.sqrt(acceleration.x*acceleration.x+acceleration.y*acceleration.y+acceleration.z*acceleration.z)-9.8);
 		}
 	};
 	
