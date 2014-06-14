@@ -127,7 +127,7 @@ module.exports = {
 			exec('python ledstrip/highstriker.py '+Math.floor(game.result));
 			if(game.result > 30) {
 				exec('echo "1" > /sys/class/gpio/gpio15/value');
-				setTimer(function() {
+				setTimeout(function() {
 					exec('echo "0" > /sys/class/gpio/gpio15/value');
 				}, game.result*50);
 			}
