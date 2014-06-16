@@ -2,7 +2,7 @@
 	<div class="col-xs-12">
 		<h1>Highstriker mobile</h1>
 		<p>
-			Welcome to Highstriker mobile!
+			{{ 'Welcome to Highstriker mobile!' | i18n }}
 		</p>
 	</div>
 	<!--div class="col-xs-12">
@@ -13,14 +13,14 @@
 	</div-->
 	<div class="col-xs-12">
 		<p>
-			<button class="btn btn-block btn-lg btn-default" ng-click="showInstructions()">How to play.</button>
+			<button class="btn btn-block btn-lg btn-default" ng-click="showInstructions()">{{ 'How to play' | i18n }}</button>
 		</p>
 		<p>
-			<button class="btn btn-block btn-lg btn-primary" ng-hide="isInQueue" ng-click="joinQueue()">Play it!</button>
-			<button class="btn btn-block btn-lg btn-danger" ng-show="isInQueue" ng-click="leaveQueue()">Cancel</button>
+			<button class="btn btn-block btn-lg btn-primary" ng-hide="isInQueue" ng-click="joinQueue()">{{ 'Play!' | i18n }}</button>
+			<button class="btn btn-block btn-lg btn-danger" ng-show="isInQueue" ng-click="leaveQueue()">{{ 'Cancel' | i18n }}</button>
 		</p>
 		<p>
-			<button class="btn btn-block btn-lg btn-default" ng-click="showHighScore()">High score</button>
+			<button class="btn btn-block btn-lg btn-default" ng-click="showHighScore()">{{ 'High score' | i18n }}</button>
 		</p>
 	</div>
 </div>

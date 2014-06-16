@@ -1,13 +1,13 @@
 <div class="row">
 	<div class="col-xs-12" ng-show="isInQueue">
-		<h1>Waiting...</h1>
-		<div>Current position in queue: <span class="position">{{ position }}</span></div>
-		<div>Estimated waiting time: <span class="waitingTime">{{ waitingTime }}</span></div>
-		<button class="btn btn-block btn-lg btn-danger" ng-click="leaveQueue()">Leave the queue</button>
+		<h1>{{ 'Waiting...' | i18n }}</h1>
+		<div>{{ 'Current position in queue:' | i18n }} <span class="position">{{ position }}</span></div>
+		<div>{{ 'Estimated waiting time:' | i18n }} <span class="waitingTime">{{ waitingTime }}</span></div>
+		<button class="btn btn-block btn-lg btn-danger" ng-click="leaveQueue()">{{ 'Leave the queue' | i18n }}</button>
 	</div>
 	<div class="col-xs-12" ng-hide="isInQueue">
-		<h1>Not in queue...</h1>
-		<div>You are currently not waiting for a game.</div>
-		<button class="btn btn-block btn-lg btn-primary" ng-click="joinQueue()">Join the queue</button>
+		<h1>{{ 'Not in queue' | i18n }}</h1>
+		<div>{{ 'You are currently not waiting for a game.' | i18n }}</div>
+		<button class="btn btn-block btn-lg btn-primary" ng-click="joinQueue()">{{ 'Join the queue' | i18n }}</button>
 	</a>
 </div>

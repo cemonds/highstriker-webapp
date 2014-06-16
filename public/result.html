@@ -1,23 +1,23 @@
 <div class="row">
 	<div class="col-xs-12">
-		<h1>Result</h1>
+		<h1>{{ 'Result' | i18n }}</h1>
 		<div>
-			<div>Result: {{ lastGame.result }}</div>
-			<div>Position in high score: {{ estimatedPosition() }}</div>
+			<div>{{ 'Score' | i18n }}: {{ lastGame.result }}</div>
+			<div>{{ 'Position in high score' | i18n }}: {{ estimatedPosition() }}</div>
 		</div>
 		<div>
-			<h3>Submit to high score</h3>
+			<h3>{{ 'Submit to high score' | i18n }}</h3>
 			<form role="form">
 				<div class="form-group">
-					<label for="name">Your name</label>
-					<input type="text" class="form-control" id="name" ng-model="name" placeholder="Enter your name" maxLength="24" />
+					<label for="name">{{ 'Your name' | i18n }}</label>
+					<input type="text" class="form-control" id="name" ng-model="name" placeholder="{{ 'Your name' | i18n }}" maxLength="24" />
 				</div>
 			</form>
 			<p>
-				<button class="btn btn-block btn-lg btn-primary" ng-click="submitHighScore()">Submit</button>
+				<button class="btn btn-block btn-lg btn-primary" ng-click="submitHighScore()">{{ 'Submit' | i18n }}</button>
 			</p>
 			<p>
-				<button class="btn btn-block btn-lg btn-default" ng-click="goMain()">Skip it</button>
+				<button class="btn btn-block btn-lg btn-default" ng-click="goMain()">{{ 'Skip it' | i18n }}</button>
 			</p>
 		</div>
 	</div>

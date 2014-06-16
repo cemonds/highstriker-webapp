@@ -263,3 +263,53 @@ app.factory('socket', ['$rootScope', function ($rootScope) {
 		}
 	};
 }]);
+
+app.filter('i18n', ['localizedTexts', '$locale', function (localizedTexts, $locale) {
+	return function (text) {
+		if (localizedTexts.hasOwnProperty(text)) {
+			var textTranslations = localizedTexts[text];
+			if(textTranslations.hasOwnProperty($locale.id)) {
+				return textTranslations[$locale.id];
+			}
+			var language = /([a-zA-Z]+)-[a-zA-Z]+/.exec($locale.id)[1];
+			if(textTranslations.hasOwnProperty(language)) {
+				return textTranslations[language];
+			}
+		}
+		return text;
+	};
+}])
+
+// this can be in a seperate file, but should load after the filter is loaded
+app.value('localizedTexts', {
+	'Welcome to Highstriker mobile!': {'de': 'Willkommen bei Highstriker mobile!'},
+	'edit Carte': {'de': 'Karte bearbeiten'},
+	'Status': {'de': 'Status'},
+	'Not in queue': {'de': 'Nicht in Warteschlange'},
+	'In queue': {'de': 'In Warteschlange'},
+	'Active players:': {'de': 'Aktive Spieler'},
+	'Players in queue:': {'de': 'Spieler in Warteschlange'},
+	'Not supported': {'de': 'Nicht unterstützt'},
+	'Unfortunately your device doesn\'t provide the needed APIs for reading the acceleration data. We\'re terrible sorry. :-(': {'de': 'Unglücklicherweise unterstützt dein Gerät nicht die benötigten Funktionen um die Beschleunigung zu messen. Es tut uns sehr leid. :-('},
+	'How to play': {'de': 'Wie spielt man'},
+	'High score': {'de': 'Bestenliste'},
+	'Back': {'de': 'Zurück'},
+	'Play!': {'de': 'Spielen!'},
+	'GO!': {'de': 'LOS!'},
+	'Start': {'de': 'Start'},
+	'Time remaining:': {'de': 'Verbleibende Zeit:'},
+	'Waiting...': {'de': 'Warte...'},
+	'Current position in queue:': {'de': 'Aktuelle Position in Warteschlange:'},
+	'Estimated waiting time:': {'de': 'Geschätzte Wartezeit:'},
+	'Leave the queue': {'de': 'Warteschlange verlassen'},
+	'You are currently not waiting for a game.': {'de': 'Du wartest grade nicht auf ein Spiel.'},
+	'Join the queue': {'de': 'Warteschlange beitreten'},
+	'Cancel': {'de': 'Abbrechen'},
+	'Result': {'de': 'Ergebnis'},
+	'Score': {'de': 'Punkte'},
+	'Position in high score': {'de': 'Position in Bestenliste'},
+	'Submit to high score': {'de': 'In Bestenliste eintragen'},
+	'Your name': {'de': 'Dein Name'},
+	'Submit': {'de': 'Eintragen'},
+	'Skip it': {'de': 'Überspringen'}
+});

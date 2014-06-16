@@ -1,13 +1,13 @@
 <div class="row">
 	<div class="col-xs-12">
-		<h1>Play!</h1>
+		<h1>{{ 'Play!' | i18n }}</h1>
 		<div ng-show="isStarted">
 			<div class="countdown alert alert-danger center-block" ng-show="! isArmed && ! isFinished">{{ startCountdown }}</div>
-			<div class="countdown alert alert-success center-block" ng-show="isArmed">GO!</div>
+			<div class="countdown alert alert-success center-block" ng-show="isArmed">{{ 'GO!' | i18n }}</div>
 		</div>
 		<div ng-hide="isStarted">
-			<button class="btn btn-block btn-lg btn-primary" ng-disabled="!canStart" ng-hide="isStarted" ng-click="start()">Start</button>
-			<small>Time remaining: {{ timeUntilGameTimeout/1000 | number:1 }} s</small>
+			<button class="btn btn-block btn-lg btn-primary" ng-disabled="!canStart" ng-hide="isStarted" ng-click="start()">{{ 'Start' | i18n }}</button>
+			<small>{{ 'Time remaining:' | i18n }} {{ timeUntilGameTimeout/1000 | number:1 }} s</small>
 		</div>
 	</div>
 </div>
