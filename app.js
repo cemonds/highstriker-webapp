@@ -204,6 +204,7 @@ module.exports = {
 				}
 			});
 			socket.on('game-will-start', function(delay) {
+				var exec = require('child_process').exec;
 				setTimeout(function() {
 					exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_1.jpg');
 					setTimeout(function() {
