@@ -213,7 +213,7 @@ module.exports = {
 							exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_3.jpg');
 						}, 800);
 					}, 800);
-				}, delay);
+				}, delay-400);
 			});
 			socket.on('finish-game', function(game) {
 				if(currentGame && currentGame.player == socket.id && currentGame.id == game.id) {
