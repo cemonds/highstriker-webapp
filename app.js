@@ -204,21 +204,21 @@ module.exports = {
 				}
 			});
 			socket.on('game-will-start', function(delay) {
-				setTimeout(delay, function() {
+				setTimeout(function() {
 					exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_1.jpg');
-					setTimeout(500, function() {
+					setTimeout(function() {
 						exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_2.jpg');
-						setTimeout(500, function() {
+						setTimeout(function() {
 							exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_3.jpg');
-							setTimeout(500, function() {
+							setTimeout(function() {
 								exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_4.jpg');
-								setTimeout(500, function() {
+								setTimeout(function() {
 									exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_5.jpg');
-								});
-							});
-						});
-					});
-				});
+								}, 500);
+							}, 500);
+						}, 500);
+					}, 500);
+				}, delay);
 			});
 			socket.on('finish-game', function(game) {
 				if(currentGame && currentGame.player == socket.id && currentGame.id == game.id) {
