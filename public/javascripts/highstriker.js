@@ -191,6 +191,7 @@ app.controller('GameController', ['$scope', '$interval', '$location', 'socket', 
 	$scope.start = function() {
 		$scope.isStarted = true;
 		$scope.startTime = new Date().getTime() + COUNTDOWN_DURATION;
+		socket.emit('game-will-start', COUNTDOWN_DURATION);
 		updateCountdowns();
 	};
 	

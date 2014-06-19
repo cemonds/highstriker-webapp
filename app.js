@@ -203,6 +203,23 @@ module.exports = {
 					socket.emit('game-started');
 				}
 			});
+			socket.on('game-will-start', function(delay) {
+				setTimeout(delay, function() {
+					exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_1.jpg');
+					setTimeout(500, function() {
+						exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_2.jpg');
+						setTimeout(500, function() {
+							exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_3.jpg');
+							setTimeout(500, function() {
+								exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_4.jpg');
+								setTimeout(500, function() {
+									exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_5.jpg');
+								});
+							});
+						});
+					});
+				});
+			});
 			socket.on('finish-game', function(game) {
 				if(currentGame && currentGame.player == socket.id && currentGame.id == game.id) {
 					var currentTime = new Date().getTime();
