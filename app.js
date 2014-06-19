@@ -211,14 +211,8 @@ module.exports = {
 						exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_2.jpg');
 						setTimeout(function() {
 							exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_3.jpg');
-							setTimeout(function() {
-								exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_4.jpg');
-								setTimeout(function() {
-									exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_5.jpg');
-								}, 500);
-							}, 500);
-						}, 500);
-					}, 500);
+						}, 1000);
+					}, 1000);
 				}, delay);
 			});
 			socket.on('finish-game', function(game) {
