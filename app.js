@@ -205,15 +205,15 @@ module.exports = {
 			});
 			socket.on('game-will-start', function(delay) {
 				setTimeout(function() {
-					exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_1.jpg');
+					exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_1.jpg');
 					setTimeout(function() {
-						exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_2.jpg');
+						exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_2.jpg');
 						setTimeout(function() {
-							exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_3.jpg');
+							exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_3.jpg');
 							setTimeout(function() {
-								exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_4.jpg');
+								exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_4.jpg');
 								setTimeout(function() {
-									exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+game.id+'_5.jpg');
+									exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_5.jpg');
 								}, 500);
 							}, 500);
 						}, 500);
