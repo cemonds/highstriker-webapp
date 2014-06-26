@@ -32,7 +32,12 @@ if (fs.existsSync('./highscore.json')) {
 }
 
 fs.readdir('sounds/idle', function(err, files){
-	idleSounds = files;
+	for(var i=0; i<files.length; ++i) {
+		var file = files[i];
+		if(file != 'README.txt') {
+			idleSounds.push(file);
+		}
+	}
 });
 
 // view engine setup
@@ -147,6 +152,7 @@ module.exports = {
 				exec('python ledstrip/idle.py');
 				if(idleSounds.length  > 0) {
 					var sound = idleSounds[Math.floor(Math.random()*idleSounds.length)];
+					console.log("Playing sound "+sound);
 					exec('mplayer sounds/idle/'+sound);
 				}
 			}
