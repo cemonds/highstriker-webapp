@@ -231,7 +231,8 @@ module.exports = {
 			});
 			socket.on('game-will-start', function(delay) {
 				var exec = require('child_process').exec;
-				setTimeout(function() {
+				exec('mplayer /opt/highstriker-webapp/sounds/countdown.mp3');
+/*				setTimeout(function() {
 					exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_1.jpg');
 					setTimeout(function() {
 						exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_2.jpg');
@@ -240,6 +241,7 @@ module.exports = {
 						}, 800);
 					}, 800);
 				}, delay-400);
+*/
 			});
 			socket.on('finish-game', function(game) {
 				if(currentGame && currentGame.player == socket.id && currentGame.id == game.id) {
