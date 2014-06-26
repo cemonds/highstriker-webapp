@@ -1,0 +1,1 @@
+Just put some sound files here to have some random sounds played when highstriker is idle.

@@ -12,11 +12,14 @@ var GAME_MAX_DURATION = 30000;
 var AFTER_GAME_WAIT_DURATION = 10000;
 var CHECK_TIMEOUT_INTERVAL = 1000;
 var NEXT_GAME_INTERVAL = 5000;
+var IDLE_THRESHOLD = 30000;
+var IDLE_CHECK_INTERVAL = 15000;
 
 var waitingQueue = []
 var currentGame = null;
 var gameHistory = [];
 var highScores = [];
+var idleSounds = [];
 
 var fs = require('fs');
 
@@ -28,7 +31,9 @@ if (fs.existsSync('./highscore.json')) {
 	}
 }
 
-
+fs.readdir('sounds/idle', function(err, files){
+	idleSounds = files;
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -133,8 +138,23 @@ module.exports = {
 			}
 		};
 
+		var checkIdle = function() {
+			if(waitingQueue.length == 0 && 
+				(gameHistory.length == 0 ||
+				gameHistory[gameHistory.length-1].end + IDLE_THRESHOLD < new Date().getTime())) {
+				
+				var exec = require('child_process').exec;
+				exec('python ledstrip/idle.py');
+				if(idleSounds.length  > 0) {
+					var sound = idleSounds[Math.floor(Math.random()*idleSounds.length)];
+					exec('mplayer sounds/idle/'+sound);
+				}
+			}
+		};
+
 		setInterval(checkCurrentGameTimeout, CHECK_TIMEOUT_INTERVAL);
 		setInterval(tryNextGame, NEXT_GAME_INTERVAL);
+		setInterval(checkIdle, IDLE_CHECK_INTERVAL);
 
 		var addHighScore = function(highScore) {
 			var position = highScores.length;
