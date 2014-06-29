@@ -129,7 +129,7 @@ app.controller('QueueController', ['$scope', 'socket', function ($scope, socket)
 }]);
 
 app.controller('GameController', ['$scope', '$interval', '$location', 'socket', function ($scope, $interval, $location, socket) {
-	var COUNTDOWN_DURATION = 5000;
+	var COUNTDOWN_DURATION = 6000;
 	var ARMED_DURATION = 3000;
 	$scope.isArmed = false
 	$scope.canStart = true;
@@ -177,6 +177,10 @@ app.controller('GameController', ['$scope', '$interval', '$location', 'socket', 
 				} else {
 					$scope.isFinished = true;
 					$scope.isArmed = false;
+					// Handle invalid values (maybe they are in feet per s?
+					if($scope.maxAcceleration > 60) {
+						$scope.maxAcceleration /= 3.2808;
+					}
 					$scope.game.result = $scope.maxAcceleration;
 					socket.emit('finish-game', $scope.game);
 					if(promise) {

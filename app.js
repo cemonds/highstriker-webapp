@@ -135,7 +135,7 @@ module.exports = {
 			var exec = require('child_process').exec;
 			exec('espeak -ven+m1 -a400  -k4 -p20 -s -s200 -w /tmp/text.wav "'+Math.floor(game.result*10)/10+' - Nice try, Buddy." && aplay /tmp/text.wav');
 			exec('python ledstrip/highstriker.py '+Math.floor(game.result));
-			if(game.result > 30) {
+			if(game.result > 40) {
 				exec('echo "1" > /sys/class/gpio/gpio15/value');
 				setTimeout(function() {
 					exec('echo "0" > /sys/class/gpio/gpio15/value');
