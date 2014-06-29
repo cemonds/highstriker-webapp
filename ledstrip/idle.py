@@ -28,7 +28,7 @@ if animation == 1:
         led.set(l, OFF)
         led.update()
 
-else if animation == 2:
+elif animation == 2:
     for l in range(FIRST_EYE):
         led.set(l, GREEN)
         led.update()
@@ -38,7 +38,7 @@ else if animation == 2:
         led.set(l, OFF)
         led.update()
 
-else if animation == 3:
+elif animation == 3:
     for l in range(FIRST_EYE):
         led.set(l, BLUE)
         led.update()

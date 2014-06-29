@@ -5,7 +5,7 @@ from bootstrap import *
 
 #setup colors to loop through for fade
 NUM_LEDS = 70
-FIRST_EYE = 70git 
+FIRST_EYE = 70
 STEPS = 1000
 STEP_SIZE = 0.075
 RED = Color(255.0,0.0,0.0)
