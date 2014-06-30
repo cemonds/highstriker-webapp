@@ -20,6 +20,7 @@ var currentGame = null;
 var gameHistory = [];
 var highScores = [];
 var idleSounds = [];
+var resultSounds = {};
 
 var fs = require('fs');
 
@@ -36,6 +37,30 @@ fs.readdir('sounds/idle', function(err, files){
 		var file = files[i];
 		if(file != 'README.txt') {
 			idleSounds.push(file);
+		}
+	}
+});
+
+fs.readdir('sounds/result', function(err, files){
+	for(var i=0; i<files.length; ++i) {
+		var file = files[i];
+		if(file != 'README.txt') {
+			var file_name = path.basename(file, path.extname(file));
+			var myRegexp = /(\d*)-(\d*)/g;
+			var match = myRegexp.exec(myString);
+			if(match) {
+				var start = 0;
+				var end = 60;
+				if(match[1]) {
+					start = Number(match[1]);
+				}
+				if(match[2]) {
+					end = Number(match[2]);
+				}
+				for(var number=start; number <= end; ++number) {
+					resultSounds[number] = file;
+				}
+			}
 		}
 	}
 });
@@ -133,7 +158,12 @@ module.exports = {
 		
 		var showGameResult = function(game) {
 			var exec = require('child_process').exec;
-			exec('espeak -ven+m1 -a400  -k4 -p20 -s -s200 -w /tmp/text.wav "'+Math.floor(game.result*10)/10+' - Nice try, Buddy." && aplay /tmp/text.wav');
+			var resultInteger = Match.floor(game.result);
+			if(resultSounds[resultInteger]) {
+				exec('mplayer sounds/result/'+resultSounds[resultInteger]);
+			} else {
+				exec('espeak -ven+m1 -a400  -k4 -p20 -s -s200 -w /tmp/text.wav "'+Math.floor(game.result*10)/10+' - Nice try, Buddy." && aplay /tmp/text.wav');
+			}
 			exec('python ledstrip/highstriker.py '+Math.floor(game.result));
 			if(game.result > 40) {
 				exec('echo "1" > /sys/class/gpio/gpio15/value');
