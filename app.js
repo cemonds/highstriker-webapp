@@ -47,7 +47,7 @@ fs.readdir('sounds/result', function(err, files){
 		if(file != 'README.txt') {
 			var file_name = path.basename(file, path.extname(file));
 			var myRegexp = /(\d*)-(\d*)/g;
-			var match = myRegexp.exec(myString);
+			var match = myRegexp.exec(file_name);
 			if(match) {
 				var start = 0;
 				var end = 60;
