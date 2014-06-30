@@ -158,7 +158,7 @@ module.exports = {
 		
 		var showGameResult = function(game) {
 			var exec = require('child_process').exec;
-			var resultInteger = Match.floor(game.result);
+			var resultInteger = Math.floor(game.result);
 			if(resultSounds[resultInteger]) {
 				exec('mplayer sounds/result/'+resultSounds[resultInteger]);
 			} else {
