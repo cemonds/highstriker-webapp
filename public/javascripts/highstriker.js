@@ -287,7 +287,7 @@ app.filter('i18n', ['localizedTexts', '$locale', function (localizedTexts, $loca
 
 // this can be in a seperate file, but should load after the filter is loaded
 app.value('localizedTexts', {
-	'Welcome to Highstriker mobile!': {'de': 'Willkommen bei Highstriker mobile!'},
+	'Welcome to High striker mobile!': {'de': 'Willkommen bei High striker mobile!'},
 	'edit Carte': {'de': 'Karte bearbeiten'},
 	'Status': {'de': 'Status'},
 	'Not in queue': {'de': 'Nicht in Warteschlange'},
@@ -316,5 +316,39 @@ app.value('localizedTexts', {
 	'Submit to high score': {'de': 'In Bestenliste eintragen'},
 	'Your name': {'de': 'Dein Name'},
 	'Submit': {'de': 'Eintragen'},
-	'Skip it': {'de': 'Überspringen'}
+	'Skip it': {'de': 'Überspringen'},
+	'High striker mobile is a game in which you try to accelerate your smart phone as fast as you can. The faster the acceleration, the more LEDs will light up and maybe you win some candy.' : {'de': 'High striker mobile ist ein Spiel, in dem du versuchst, dein Smartphone so schnell zu beschleunigen wie du nur kannst. Je schneller die Beschleunigung ist, desto mehr LEDs werden aufleuchten und du gewinnst vielleicht auch etwas Süßes.'},
+	'Step': {'de': 'Schritt'},
+	'At the main page of the high striker web app, tap the button "Play!". You will be enqueued into a waiting queue, until you can start your game.': {'de': 'Auf der Startseite der High striker Webanwendung drück den Knopf "Spielen!". Du wirst nun in eine Warteschlange aufgenommen, bis du dein Spiel starten kannst.' },
+	'In the waiting queue, you see your position in the queue and the approximate waiting time. If you wish to wait no longer, you can leave the waiting queue.': {'de': 'In der Warteschlange siehst du deine Position sowie die ungefähre Wartezeit. Wenn du nicht mehr weiter warten möchtest, kannst du auch die Warteschlange verlassen.'},
+	'When it\'s your turn to play, you have 30 seconds to start your game by tapping on the "Start" button.': {'de': 'Wenn du an der Reihe bist zu spielen, hast du 30 Sekunden Zeit zum Starten deines Spiels durch Drücken des "Start"-Knopfes.'},
+	'After "Start" a countdown starts counting backwards until the begin of the game. When reaching "GO!" you should accelerate your phone as fast as you can. The maximum acceleration within 3 seconds will be your final score.': {'de': 'Nach "Start" beginnt ein Countdown bis zum Start des Spiels. Wenn "Los!" erreicht ist, solltest du dein Smartphone so schnell beschleunigen wie du kannst. Die stärkste Beschleunigung innerhalb von 3 Sekunden ergeben dein Endergebnis.'},
+	'Your score will be displayed by the high striker tower and you can add your name to the high scores table. Maybe you will win some candy ;-)': {'de': 'Deine Punktzahl wird vom High striker Turm dargestellt und du kannst deinen Namen in die "High Score"-Tabelle eintragen. Vielleicht gewinnst du auch etwas Süßes ;-)'}
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

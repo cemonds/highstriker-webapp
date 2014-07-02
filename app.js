@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var _ = require('underscore')._;
-
+var locale = require("locale");
 var app = express();
 
 var GAME_MAX_DURATION = 30000;
@@ -14,6 +14,8 @@ var CHECK_TIMEOUT_INTERVAL = 1000;
 var NEXT_GAME_INTERVAL = 5000;
 var IDLE_THRESHOLD = 30000;
 var IDLE_CHECK_INTERVAL = 15000;
+
+var supportedLocales = ["en", "en_US", "de", "de_DE"];
 
 var waitingQueue = []
 var currentGame = null;
@@ -65,10 +67,20 @@ fs.readdir('sounds/result', function(err, files){
 	}
 });
 
+var router = express.Router();
+
+/* GET instructions. */
+router.get('/', function(req, res) {
+  console.log(req.locale);
+  res.render('index.html', { locale: req.locale });
+});
+
+app.use(locale(supportedLocales));
+app.use('/', router);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
+app.set('view engine', 'ejs');
 
 app.use(favicon());
 app.use(logger('dev'));
