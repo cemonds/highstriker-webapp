@@ -43,9 +43,6 @@ app.controller('MainController', ['$scope', '$location', 'socket', function ($sc
 	$scope.lastGame = null;
 	$scope.highScores = []
 	
-	if (!window.DeviceMotionEvent) {
-		$location.url('/notsupported');
-	}
 	socket.on('highscore', function(highScores) {
 		$scope.highScores = highScores;
 	});
@@ -79,7 +76,11 @@ app.controller('MainController', ['$scope', '$location', 'socket', function ($sc
 		$scope.waitingUsers = message.waitingUsers;
 	});
 	$scope.joinQueue = function() {
-		socket.emit('join-queue');
+		if (!window.DeviceMotionEvent) {
+			$location.url('/notsupported');
+		} else {
+			socket.emit('join-queue');
+		}
 	}
 	$scope.leaveQueue = function() {
 		socket.emit('leave-queue');
