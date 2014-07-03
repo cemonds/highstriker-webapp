@@ -233,7 +233,7 @@ module.exports = {
 			if(! line) {
 				line = resultLines[playerLocale]['default'];
 			}
-			console.log('espeak -v'+playerLocale+'+m1 -a400  -k4 -p20 -s -s200 -w /tmp/text.wav "'+line.replace('{0}', Math.floor(game.result*10)/10)+'" && aplay /tmp/text.wav');
+			exec('espeak -v'+playerLocale+'+m1 -a400  -k4 -p20 -s -s200 -w /tmp/text.wav "'+line.replace('{0}', Math.floor(game.result*10)/10)+'" && aplay /tmp/text.wav');
 			exec('python ledstrip/highstriker.py '+Math.floor(game.result));
 			if(game.result > 40) {
 				exec('echo "1" > /sys/class/gpio/gpio15/value');
