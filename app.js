@@ -261,8 +261,6 @@ module.exports = {
 		setInterval(checkCurrentGameTimeout, CHECK_TIMEOUT_INTERVAL);
 		setInterval(tryNextGame, NEXT_GAME_INTERVAL);
 		setInterval(checkIdle, IDLE_CHECK_INTERVAL);
-		var score = 20;
-		setInterval(function() {showGameResult({result:score++}, 'en')}, 6000);
 
 		var addHighScore = function(highScore) {
 			var position = highScores.length;
