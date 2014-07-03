@@ -24,6 +24,55 @@ var highScores = [];
 var idleSounds = [];
 var resultSounds = {};
 
+var resultLines = {
+	"de": {
+		"default": "{0} - Netter Versuch, Kumpel.",
+		"20": "hahahahaha - {0} - Den hätte meine Oma besser gemacht.",
+		"21": "hahahahaha - {0} - Den hätte meine Oma besser gemacht.",
+		"22": "hahahahaha - {0} - Den hätte meine Oma besser gemacht.",
+		"23": "Nur {0}? Heute deinen Spinat vergessen?",
+		"24": "Nur {0}? Heute deinen Spinat vergessen?",
+		"25": "{0}. Gibt es hier auch Leute mit etwas Kraft?",
+		"25": "{0}. Gibt es hier auch Leute mit etwas Kraft?",
+		"26": "{0}. Gibt es hier auch Leute mit etwas Kraft?",
+		"27": "{0}. Immerhin mal ein Anfang.",
+		"28": "{0}. Immerhin mal ein Anfang.",
+		"29": "Das kannst du aber besser, {0}. ",
+		"30": "Das kannst du aber besser, {0}. ",
+		"34": "So langsam wird es mit {0} Punkten. ",
+		"35": "{0} Punkte, interessant. ",
+		"36": "{0} Versuch mal den anderen Arm. ",
+		"37": "Wooohoooo, was war das? {0} Punkte?",
+		"38": "{0} Da kann ja einer etwas.",
+		"39": "Nicht schlecht, {0}.",
+		"40": "OK, {0}, das macht mir etwas Angst..",
+		"43": "Wow, echt beeindruckend. {0} Punkte."
+	},
+	"en": {
+		"default": "{0} - Nice try, buddy.",
+		"20": "hahahahaha - {0} - My grandma would have done better.",
+		"21": "hahahahaha - {0} - My grandma would have done better.",
+		"22": "hahahahaha - {0} - My grandma would have done better.",
+		"23": "Only {0}? Forgot to eat your spinach?",
+		"24": "Only {0}? Forgot to eat your spinach?",
+		"25": "{0}. Is here somebody with any strength?",
+		"25": "{0}. Is here somebody with any strength?",
+		"26": "{0}. Is here somebody with any strength?",
+		"27": "{0}. At least a start.",
+		"28": "{0}. At least a start.",
+		"29": "You can do better, {0}. ",
+		"30": "You can do better, {0}. ",
+		"34": "You're getting there, a score of {0}. ",
+		"35": "{0}, interesting. ",
+		"36": "{0}. Try the other arm. ",
+		"37": "Wooohoooo, what happend there? A score of {0}?",
+		"38": "{0} There is somebody who knows what to do.",
+		"39": "Not bad, {0}.",
+		"40": "OK, {0}, I'm a little bit frightened.",
+		"43": "Wow, impressive. A score of {0}."
+	}
+};
+
 var fs = require('fs');
 
 if (fs.existsSync('./highscore.json')) {
@@ -168,13 +217,19 @@ module.exports = {
 			}
 		};
 		
-		var showGameResult = function(game) {
+		var showGameResult = function(game, playerLocale) {
+			if(playerLocale == "de" || playerLocale == "de_DE") {
+				playerLocale = "de";
+			} else {
+				playerLocale = "en";
+			} 
 			var exec = require('child_process').exec;
 			var resultInteger = Math.floor(game.result);
 			if(resultSounds[resultInteger]) {
-				exec('mplayer sounds/result/'+resultSounds[resultInteger]);
-			} else {
-				exec('espeak -ven+m1 -a400  -k4 -p20 -s -s200 -w /tmp/text.wav "'+Math.floor(game.result*10)/10+' - Nice try, Buddy." && aplay /tmp/text.wav');
+				exec('mplayer -af volnorm=2:1 sounds/result/'+resultSounds[resultInteger]);
+			}
+			if(resultLines[playerLocale] && resultLines[playerLocale][resultInteger]) {
+				exec('espeak -v'+playerLocale+'+m1 -a400  -k4 -p20 -s -s200 -w /tmp/text.wav "'+resultLines[playerLocale][resultInteger].format(Math.floor(game.result*10)/10)+'" && aplay /tmp/text.wav');
 			}
 			exec('python ledstrip/highstriker.py '+Math.floor(game.result));
 			if(game.result > 40) {
@@ -195,7 +250,7 @@ module.exports = {
 				if(idleSounds.length  > 0) {
 					var sound = idleSounds[Math.floor(Math.random()*idleSounds.length)];
 					console.log("Playing sound "+sound);
-					exec('mplayer sounds/idle/'+sound);
+					exec('mplayer -af volnorm=2:1 sounds/idle/'+sound);
 				}
 			}
 		};
@@ -273,7 +328,7 @@ module.exports = {
 			});
 			socket.on('game-will-start', function(delay) {
 				var exec = require('child_process').exec;
-				exec('mplayer /opt/highstriker-webapp/sounds/countdown.mp3');
+				exec('mplayer -af volnorm=2:1 /opt/highstriker-webapp/sounds/countdown.mp3');
 /*				setTimeout(function() {
 					exec('fswebcam -r 640x480 -S 4 --save /opt/highstriker-webapp/public/images/'+currentGame.id+'_1.jpg');
 					setTimeout(function() {
@@ -290,7 +345,7 @@ module.exports = {
 					var currentTime = new Date().getTime();
 					if(currentGame.end >= currentTime && currentGame.start <= currentTime) {
 						currentGame.result = game.result;
-						showGameResult(currentGame);
+						showGameResult(currentGame, game.locale);
 						gameHistory.push(currentGame);
 						currentGame = null;
 						socket.emit('game-finished');
