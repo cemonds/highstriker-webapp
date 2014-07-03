@@ -129,7 +129,7 @@ app.controller('QueueController', ['$scope', 'socket', function ($scope, socket)
 	});
 }]);
 
-app.controller('GameController', ['$scope', '$interval', '$location', 'socket', function ($scope, $interval, $location, socket) {
+app.controller('GameController', ['$scope', '$interval', '$location', '$locale', 'socket', function ($scope, $interval, $location, $locale, socket) {
 	var COUNTDOWN_DURATION = 6000;
 	var ARMED_DURATION = 3000;
 	$scope.isArmed = false
@@ -183,7 +183,8 @@ app.controller('GameController', ['$scope', '$interval', '$location', 'socket', 
 						$scope.maxAcceleration /= 3.2808;
 					}
 					$scope.game.result = $scope.maxAcceleration;
-					socket.emit('finish-game', $scope.game);
+					var language = /([a-zA-Z]+)-[a-zA-Z]+/.exec($locale.id)[1];
+					socket.emit('finish-game', $scope.game, language);
 					if(promise) {
 						$interval.cancel(promise);
 						promise = null;

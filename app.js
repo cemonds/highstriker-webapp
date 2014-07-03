@@ -228,9 +228,12 @@ module.exports = {
 			if(resultSounds[resultInteger]) {
 				exec('mplayer -af volnorm=2:1 sounds/result/'+resultSounds[resultInteger]);
 			}
-			if(resultLines[playerLocale] && resultLines[playerLocale][resultInteger]) {
-				exec('espeak -v'+playerLocale+'+m1 -a400  -k4 -p20 -s -s200 -w /tmp/text.wav "'+resultLines[playerLocale][resultInteger].format(Math.floor(game.result*10)/10)+'" && aplay /tmp/text.wav');
+			console.log(resultLines[playerLocale]);
+			var line = resultLines[playerLocale][resultInteger];
+			if(! line) {
+				line = resultLines[playerLocale]['default'];
 			}
+			console.log('espeak -v'+playerLocale+'+m1 -a400  -k4 -p20 -s -s200 -w /tmp/text.wav "'+line.replace('{0}', Math.floor(game.result*10)/10)+'" && aplay /tmp/text.wav');
 			exec('python ledstrip/highstriker.py '+Math.floor(game.result));
 			if(game.result > 40) {
 				exec('echo "1" > /sys/class/gpio/gpio15/value');
@@ -258,6 +261,8 @@ module.exports = {
 		setInterval(checkCurrentGameTimeout, CHECK_TIMEOUT_INTERVAL);
 		setInterval(tryNextGame, NEXT_GAME_INTERVAL);
 		setInterval(checkIdle, IDLE_CHECK_INTERVAL);
+		var score = 20;
+		setInterval(function() {showGameResult({result:score++}, 'de')}, 6000);
 
 		var addHighScore = function(highScore) {
 			var position = highScores.length;
